@@ -1,12 +1,12 @@
-package domain.enums;
+package br.com.venutetech.helpdesk.domain.enums;
 
-public enum Prioridade {
-	BAIXA(0,"BAIXA"), MEDIA(1,"MEDIA"), ALTA(2,"ALTA");
+public enum Status {
+	ABERTO(0,"ABERTO"),ANDAMENTO(1,"ANDAMENTO"),ENCERRADO(2,"ENCERRADO");
 	
 	private Integer codigo;
 	private String descricao;
 	
-	private Prioridade(Integer codigo, String descricao) {
+	private Status(Integer codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
@@ -19,18 +19,18 @@ public enum Prioridade {
 		return descricao;
 	}
 	
-	public static Prioridade toEnum(Integer cod) {
+	public static Status toEnum(Integer cod) {
 		if(cod == null) {
 			return null;
 		}
 		
-		for(Prioridade x : Prioridade.values()) {
+		for(Status x : Status.values()) {
 			if(cod.equals(x.getCodigo())) {
 				return x;
 			}
 		}
 		
-		throw new IllegalArgumentException("Prioridade inválida");
+		throw new IllegalArgumentException("Status inválido");
 	}
 	
 }
