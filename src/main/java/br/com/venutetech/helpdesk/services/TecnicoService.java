@@ -1,6 +1,7 @@
 package br.com.venutetech.helpdesk.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,12 @@ public class TecnicoService {
 
 	private void validaPorCPFEEmail(TecnicoDTO objDTO) {
 		Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
-		if(obj.isPresent() && obj.get().getId() != objDTO.getId()) {
+		if(obj.isPresent() && !Objects.equals(obj.get().getId(), objDTO.getId())) {
 			throw new DataIntegrityViolationException("CPF já cadastro no sistema");
 		}
 		
 		obj = pessoaRepository.findByEmail(objDTO.getEmail());
-		if(obj.isPresent() && obj.get().getId() != objDTO.getId()) {
+		if(obj.isPresent() && !Objects.equals(obj.get().getId(), objDTO.getId())) {
 			throw new DataIntegrityViolationException("E-mail já cadastro no sistema");
 		}
 	}
