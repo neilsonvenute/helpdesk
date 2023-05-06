@@ -14,6 +14,7 @@ import br.com.venutetech.helpdesk.repositories.PessoaRepository;
 import br.com.venutetech.helpdesk.repositories.TecnicoRepository;
 import br.com.venutetech.helpdesk.services.exceptions.DataIntegrityViolationException;
 import br.com.venutetech.helpdesk.services.exceptions.ObjectNotFoundException;
+import jakarta.validation.Valid;
 
 @Service
 public class TecnicoService {
@@ -38,6 +39,15 @@ public class TecnicoService {
 		validaPorCPFEEmail(objDTO);
 		Tecnico newObj = new Tecnico(objDTO);
 		return tecnicoRepository.save(newObj);
+	}
+	
+	public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
+		objDTO.setId(id);
+		Tecnico oldObj = findById(id);
+		validaPorCPFEEmail(objDTO);
+		oldObj = new Tecnico(objDTO);
+		
+		return tecnicoRepository.save(oldObj);
 	}
 
 	private void validaPorCPFEEmail(TecnicoDTO objDTO) {
