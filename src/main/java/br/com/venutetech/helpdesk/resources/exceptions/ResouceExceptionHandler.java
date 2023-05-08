@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import br.com.venutetech.helpdesk.services.exceptions.DataIntegrityViolationException;
 import br.com.venutetech.helpdesk.services.exceptions.ObjectNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class ResouceExceptionHandler {
@@ -47,4 +48,15 @@ public class ResouceExceptionHandler {
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
 	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<StandardError> constraintViolationException(ConstraintViolationException ex,
+			HttpServletRequest request) {
+		
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
+				"Violação de dados", "Número do registro de contribuinte individual brasileiro (CPF) inválido", request.getRequestURI());
+		
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+	}
+	
 }
