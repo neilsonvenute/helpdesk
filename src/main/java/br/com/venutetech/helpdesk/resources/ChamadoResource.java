@@ -1,5 +1,7 @@
 package br.com.venutetech.helpdesk.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,4 +25,12 @@ public class ChamadoResource {
 		Chamado obj = chamadoService.findById(id);
 		return ResponseEntity.ok().body(new ChamadoDTO(obj));
 	}
+	
+	@GetMapping
+	public ResponseEntity<List<ChamadoDTO>> findAll(){
+		List<Chamado> list = chamadoService.findAll();
+		List<ChamadoDTO> listDTO = list.stream().map(ChamadoDTO::new).toList();
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
 }
